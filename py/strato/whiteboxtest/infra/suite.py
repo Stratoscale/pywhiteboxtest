@@ -151,6 +151,16 @@ def TS_ASSERT_THROWS_ANYTHING(call, * args, ** kwargs):
         raiseAssert("TS_ASSERT_THROWS_ANYTHING failed")
 
 
+def TS_ASSERT_THROWS( exceptionClass, call, * args, ** kwargs):
+    try:
+        call(* args, ** kwargs)
+    except exceptionClass:
+        global _successful_TS_ASSERT_Count
+        _successful_TS_ASSERT_Count += 1
+    else:
+        raiseAssert("TS_ASSERT_THROWS failed: no exception thrown")
+
+
 def sleep(interval, reason):
     logging.progress(
         "Sleeping for %(interval).3f, Reason: '%(reason)s'",
