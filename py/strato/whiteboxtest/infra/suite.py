@@ -151,7 +151,7 @@ def TS_ASSERT_THROWS_ANYTHING(call, * args, ** kwargs):
         raiseAssert("TS_ASSERT_THROWS_ANYTHING failed")
 
 
-def TS_ASSERT_THROWS( exceptionClass, call, * args, ** kwargs):
+def TS_ASSERT_THROWS(exceptionClass, call, * args, ** kwargs):
     try:
         call(* args, ** kwargs)
     except exceptionClass:
