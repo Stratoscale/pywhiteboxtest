@@ -1,8 +1,7 @@
 from strato.whiteboxtest.infra.suite import *
-from strato.whiteboxtest.infra import scenario
 import atexit
 
-class Test(scenario.Scenario):
+class Test:
     def setUp(self):
         self.setUpCalled = True
         self.tearDownCalled = False

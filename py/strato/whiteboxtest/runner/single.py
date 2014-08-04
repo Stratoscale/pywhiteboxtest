@@ -1,4 +1,5 @@
 from strato.whiteboxtest.runner import config
+from strato.whiteboxtest.infra import executioner
 from strato.common.log import configurelogging
 import logging
 import os
@@ -13,8 +14,8 @@ def runSingleScenario(scenarioFilename):
     logging.info("Running '%(scenarioFilename)s' as a test class", dict(scenarioFilename=scenarioFilename))
     try:
         module = imp.load_source('test', scenarioFilename)
-        instance = module.Test()
-        instance.executeTestScenario()
+        execute = executioner.Executioner(module.Test)
+        execute.executeTestScenario()
     except:
         logging.exception(
             "Failed running '%(scenarioFilename)s' as a test class",

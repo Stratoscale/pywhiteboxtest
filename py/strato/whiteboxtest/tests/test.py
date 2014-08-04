@@ -14,9 +14,11 @@ class Test(unittest.TestCase):
             shell=True, close_fds=True, stderr=subprocess.STDOUT)
         with open('logs.whiteboxtest/whiteboxtestrunnerreport.json') as f:
             report = json.load(f)
-        self.assertEquals(len(report), 1)
+        self.assertEquals(len(report), 2)
         self.assertEquals(report[0]['scenario'], 'example_whiteboxtest/1_simple.py')
         self.assertTrue(report[0]['passed'])
+        self.assertEquals(report[1]['scenario'], 'example_whiteboxtest/2_custom_setUp_and_tearDown.py')
+        self.assertTrue(report[1]['passed'])
 
     def test_failingExample(self):
         try:
