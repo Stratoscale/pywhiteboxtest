@@ -125,6 +125,14 @@ def TS_ASSERT_IN(valueA, valueB):
     _successful_TS_ASSERT_Count += 1
 
 
+def TS_ASSERT_NOT_IN(valueA, valueB):
+    if valueA in valueB:
+        raiseAssert(
+            "TS_ASSERT_NOT_IN failed: '%s' is in '%s'" % (pprint.pformat(valueA), pprint.pformat(valueB)))
+    global _successful_TS_ASSERT_Count
+    _successful_TS_ASSERT_Count += 1
+
+
 def TS_ASSERT_EQUALS(valueA, valueB):
     if not (valueA == valueB):
         raiseAssert(
