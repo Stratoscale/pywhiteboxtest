@@ -36,5 +36,22 @@ class Test(unittest.TestCase):
         self.assertEquals(report[0]['scenario'], 'example_whiteboxtest_fails/1_fails.py')
         self.assertFalse(report[0]['passed'])
 
+    def test_timesout(self):
+        try:
+            subprocess.check_output(
+                'python py/strato/whiteboxtest/runner/main.py '
+                '--scenariosRoot=example_whiteboxtest_timesout',
+                shell=True, close_fds=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError:
+            pass
+        else:
+            raise Exception("Runner should fail if test failes")
+        with open('logs.whiteboxtest/whiteboxtestrunnerreport.json') as f:
+            report = json.load(f)
+        self.assertEquals(len(report), 1)
+        self.assertEquals(report[0]['scenario'], 'example_whiteboxtest_timesout/1_timesout.py')
+        self.assertFalse(report[0]['passed'])
+
+
 if __name__ == '__main__':
     unittest.main()

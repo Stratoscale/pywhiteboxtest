@@ -10,6 +10,6 @@ class TimeoutThread(threading.Thread):
         self.daemon = True
         self.start()
 
-    def safeRun(self):
+    def run(self):
         time.sleep(self._interval)
         self._callback()
