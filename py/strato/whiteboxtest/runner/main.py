@@ -1,8 +1,4 @@
 #!/usr/bin/python
-
-from strato.whiteboxtest.runner import config
-from strato.common.log import configurelogging
-configurelogging.configureLogging('whiteboxtest.runner', forceDirectory=config.TEST_LOGS_DIR)
 import logging
 import argparse
 import sys
@@ -12,6 +8,10 @@ import json
 import re
 import os
 import subprocess
+
+from strato_common.log import configurelogging
+from strato.whiteboxtest.runner import config
+configurelogging.configureLogging('whiteboxtest.runner', forceDirectory=config.TEST_LOGS_DIR)  # noqa
 from strato.whiteboxtest.infra import suite
 
 _defaultReport = os.path.join(config.TEST_LOGS_DIR, "whiteboxtestrunnerreport.json")

@@ -1,11 +1,12 @@
-import logging
-from strato.whiteboxtest.infra import suite
-from strato.whiteboxtest.infra import timeoutthread
-from strato.common.log import discardinglogger
 import os
 import signal
 import time
 import sys
+import logging
+
+from strato_common.log import discardinglogger
+from strato.whiteboxtest.infra import suite
+from strato.whiteboxtest.infra import timeoutthread
 
 
 class Executioner:

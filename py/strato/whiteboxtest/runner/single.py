@@ -1,11 +1,11 @@
-from strato.whiteboxtest.runner import config
-from strato.whiteboxtest.infra import executioner
-from strato.common.log import configurelogging
 import logging
 import os
 import shutil
-from strato.common import log
 import imp
+
+from strato_common.log import configurelogging
+from strato.whiteboxtest.runner import config
+from strato.whiteboxtest.infra import executioner
 
 
 def runSingleScenario(scenarioFilename):
