@@ -21,20 +21,53 @@ class Executioner:
         self._timeoutInterval = getattr(self._test, 'ABORT_TEST_TIMEOUT', self.DEFAULT_ABORT_TEST_TIMEOUT)
         self._discardLoggingOf = getattr(self._test, 'DISCARD_LOGGING_OF', self.DEFAULT_DISCARD_LOGGING_OF)
         self._setUpSequence = getattr(self._test, 'SETUP_SEQUENCE', self.DEFAULT_SETUP_SEQUENCE)
+        self._cleanUpMethods = list()
+        self._test.addCleanup = self._addCleanup
 
     def executeTestScenario(self):
         timeoutthread.TimeoutThread(self._timeoutInterval, self._testTimedOut)
         logging.info(
             "Test timer armed. Timeout in %(seconds)d seconds", dict(seconds=self._timeoutInterval))
-        self._setUp()
+        try:
+            self._setUp()
+        except:
+            logging.error("Test setup failed. Invoking cleanup methods...")
+            self._cleanUp()
+            logging.info("Done cleaning.")
+            raise
         try:
             self._run()
         finally:
-            self._tearDown()
+            try:
+                self._tearDown()
+            except:
+                logging.error("Test tear-down failed. Invoking cleanup methods...")
+            finally:
+                self._cleanUp()
         logging.success(
             "Test completed successfully, in '%(filename)s', with %(asserts)d successfull asserts",
             dict(filename=self._filename(), asserts=suite.successfulTSAssertCount()))
         print ".:1: Test passed"
+
+    def _cleanUp(self):
+        if not self._cleanUpMethods:
+            return
+        logging.info("Performing cleanup...")
+        while self._cleanUpMethods:
+            callback, args, kwargs = self._cleanUpMethods.pop()
+            args = list() if args is None else args
+            kwargs = dict() if kwargs is None else kwargs
+            logging.info("Invoking cleanup method '%(callback)s with (%(args)s, %(kwargs)s...",
+                         dict(callback=callback, args=args, kwargs=kwargs))
+            try:
+                callback(*args, **kwargs)
+            except:
+                logging.exception("An error has occurred during the cleanup method '%(callback)s'. Skipping",
+                                  dict(callback=callback))
+        logging.info("Cleanup done.")
+
+    def _addCleanup(self, method, *args, **kwargs):
+        self._cleanUpMethods.append([method, args, kwargs])
 
     def _testTimedOut(self):
         logging.error(
@@ -42,6 +75,7 @@ class Executioner:
             "the scenario ABORT_TEST_TIMEOUT", dict(seconds=self._timeoutInterval))
         timeoutthread.TimeoutThread(10, self._killSelf)
         timeoutthread.TimeoutThread(15, self._killSelfHard)
+        self._cleanUp()
         self._killSelf()
         time.sleep(2)
         self._killSelfHard()
