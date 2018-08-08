@@ -84,6 +84,8 @@ def TS_ASSERT_PREDICATE_TIMEOUT(predicate, * args, ** kwargs):
         try:
             if predicate(* args, ** kwargs):
                 _successful_TS_ASSERT_Count += 1
+                logging.info("Done waiting for predicate %s after %s secs",
+                             predicate, str(time.time() - before))
                 return
             else:
                 time.sleep(interval)
@@ -91,6 +93,7 @@ def TS_ASSERT_PREDICATE_TIMEOUT(predicate, * args, ** kwargs):
             time.sleep(interval)
     if predicate(* args, ** kwargs):
         _successful_TS_ASSERT_Count += 1
+        logging.info("Predicate %s succeed just in timeout", predicate)
         return
     else:
         raiseAssert("TS_ASSERT_PREDICATE_TIMEOUT failed: %s" % predicate)

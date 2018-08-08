@@ -2,7 +2,7 @@
 
 from strato.whiteboxtest.runner import config
 from strato.common.log import configurelogging
-configurelogging.configureLogging('whiteboxtest.runner', forceDirectory=config.TEST_LOGS_DIR)
+configurelogging.configureLogging('whiteboxtest.runner', forceDirectory=config.TEST_LOGS_DIR)  # noqa
 import logging
 import argparse
 import sys
