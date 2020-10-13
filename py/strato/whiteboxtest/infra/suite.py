@@ -171,9 +171,9 @@ def TS_ASSERT_THROWS(exceptionClass, call, * args, ** kwargs):
 
 def sleep(interval, reason):
     logging.progress(
-        "Sleeping for %(interval).3f, Reason: '%(reason)s'",
+        "Sleeping for %(interval).3f seconds, Reason: '%(reason)s'",
         dict(interval=interval, reason=reason))
     time.sleep(interval)
     logging.progress(
-        "Done sleeping for %(interval).3f, Reason: '%(reason)s'",
+        "Done sleeping for %(interval).3f seconds, Reason: '%(reason)s'",
         dict(interval=interval, reason=reason))
