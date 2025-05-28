@@ -1,0 +1,5 @@
+registry: rackattack-nas.dc1:5000
+build-container-image: whiteboxtest-build
+
+make:
+  makefile: Makefile

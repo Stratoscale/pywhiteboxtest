@@ -1,0 +1,45 @@
+[build-system]
+requires = [
+  "setuptools",
+  "wheel",
+  "python-setuptools-plugins",
+  "setuptools-git-versioning",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["py"]
+include = ["*"]
+
+[tool.setuptools-git-versioning]
+enabled = true
+version_callback = "setuptools_plugins.version:get_version"
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[project]
+name = "strato-whiteboxtest"
+dynamic = ["version", "dependencies"]
+description = "Legacy testing runner for monkey"
+keywords = ["monkey", "whitebox", "whiteboxtest"]
+readme = "README.md"
+authors = [{ name = "Stratoscale", email = "zcompute@zadarastorage.com" }]
+urls = { homepage = "https://github.com/Stratoscale/systegration-tools.git" }
+classifiers = [
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: System Administrators",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 2",
+  "Programming Language :: Python :: 2.7",
+  "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+
+[project.scripts]
+whitebox = "strato.whiteboxtest.runner.main:main"
+whitebox_single = "strato.whiteboxtest.runner.single:main"

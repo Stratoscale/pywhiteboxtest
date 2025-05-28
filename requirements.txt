@@ -1,0 +1,3 @@
+ python-setuptools-plugins==0.2.0+g481ee57 
+ strato-common-log==0.0.1.dev0+gbce9101
+ dateparser

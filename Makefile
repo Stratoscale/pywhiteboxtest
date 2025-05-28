@@ -1,10 +1,14 @@
-all: test check_convention
+all: test lint build
+.PHONY: all test lint build
 
 clean:
 	rm -fr logs.whiteboxtest
 
 test:
-	UPSETO_JOIN_PYTHON_NAMESPACES=yes PYTHONPATH=$(PWD)/py python py/strato/whiteboxtest/tests/test.py
+	PYTHONPATH=$(PWD)/py python py/strato/whiteboxtest/tests/test.py
 
-check_convention:
+build: pyproject.toml *.py
+	python -m build .
+
+lint:
 	pep8 py --max-line-length=109

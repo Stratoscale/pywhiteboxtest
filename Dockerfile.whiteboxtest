@@ -1,0 +1,11 @@
+FROM rackattack-nas.dc1:5000/ubuntu-python-base:1000.7.0-g21c1e3c
+COPY apt-packages.in /tmp/
+RUN apt-get update -y && \
+  apt-get upgrade -y && \
+  apt-get install -y $(cat /tmp/apt-packages.in) && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+COPY pip.conf /etc/pip.conf
+COPY requirements.txt /tmp/
+RUN python -m pip install -r /tmp/requirements.txt --no-cache-dir --break-system-packages
+COPY dist/strato_whiteboxtest-*.whl /tmp/dist/
